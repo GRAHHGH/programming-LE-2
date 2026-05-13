@@ -30,6 +30,8 @@ public class Doctor extends User{
         
         if (getCanAdmitPatients()) {
             System.out.println(" -> Action: Approving patient for hospital admission...");
+            patient.setIsAdmitted(true);
+            System.out.println(" -> Result: Patient has been officially ADMITTED to a room.");
         }
         System.out.println("===========================");
     }
