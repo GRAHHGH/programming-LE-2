@@ -73,11 +73,24 @@ public class Login {
         User newUserProfile = null;
 
         if (roleChoice.equals("1")) {
-            newUserProfile = new Doctor(name, age, newUsername, 10, "General", true, true);
+            System.out.print("Enter Medical Specialization (e.g., Pediatrics, Cardiology): ");
+            String specialization = scanner.nextLine();
+            
+            newUserProfile = new Doctor(name, age, newUsername, 10, specialization, true, true);
         } 
         else if (roleChoice.equals("2")){
             newUserProfile = new Nurse(name, age, newUsername, true, true);
         } 
+        else if (roleChoice.equals("3")) {
+            // NEW: Ask for the Surgeon's specific specialization
+            System.out.print("Enter Surgical Specialization (e.g., Neurosurgery, Orthopedics): ");
+            String specialization = scanner.nextLine();
+            
+            System.out.print("Enter assigned Operating Room (e.g., OR-1): ");
+            String orNumber = scanner.nextLine();
+            
+            newUserProfile = new Surgeon(name, age, newUsername, 5, specialization, true, true, orNumber);
+        }
         else{
             System.out.println("Error: Invalid choice.");
             return;
