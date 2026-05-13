@@ -12,7 +12,7 @@ public class UserDataManager {
     public UserDataManager() {
         this.staffDatabase = new HashMap<>();
         this.staffProfiles = new HashMap<>();
-        this.patientRecords = new HashMap<>(); // Initialize patient database
+        this.patientRecords = new HashMap<>(); 
     }
 
     // Register Staff (Requires Password)

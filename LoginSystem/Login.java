@@ -74,9 +74,11 @@ public class Login {
 
         if (roleChoice.equals("1")) {
             newUserProfile = new Doctor(name, age, newUsername, 10, "General", true, true);
-        } else if (roleChoice.equals("2")) {
+        } 
+        else if (roleChoice.equals("2")){
             newUserProfile = new Nurse(name, age, newUsername, true, true);
-        } else {
+        } 
+        else{
             System.out.println("Error: Invalid choice.");
             return;
         }
