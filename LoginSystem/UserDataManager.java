@@ -1,5 +1,6 @@
 package LoginSystem;
 
+import java.util.Collection;
 import java.util.HashMap;
 import HealthCare_Users.*;
 
@@ -44,5 +45,9 @@ public class UserDataManager {
     // Add a patient directly to the records 
     public void addPatientRecord(Patient patient) {
         patientRecords.put(patient.getPatientID(), patient);
+    }
+
+    public Collection<Patient> getAllPatients() {
+        return patientRecords.values(); 
     }
 }

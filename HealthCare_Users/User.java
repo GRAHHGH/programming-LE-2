@@ -13,7 +13,8 @@ public abstract class User {
     }
 
     public abstract String getRole();
-    
+    public abstract void treatPatient(Patient patient);
+
     @Override
     public String toString() {
         return "Name: " + getName() + " | Age: " + getAge() + " | ID: " + getUserID();

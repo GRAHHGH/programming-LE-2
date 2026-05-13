@@ -23,6 +23,26 @@ public class Nurse extends User {
                "Can Check BP: " + canCheckBP + " | Can Administer Meds: " + canAdministerMedicine;
     }
 
+    @Override
+    public void treatPatient(Patient patient) {
+        System.out.println("\n=== NURSE ACTION PANEL ===");
+        System.out.println("Nurse " + getName() + " is attending to Patient: " + patient.getName());
+        
+        if (getCanCheckBP()) {
+            System.out.println(" -> Action: Taking new Blood Pressure and Heart Rate vitals...");
+            // Just for fun, we can simulate taking vitals by generating random numbers!
+            patient.setHeartRate((int)(Math.random() * 40) + 60); 
+            patient.setBloodPressure("120/80"); 
+        }
+        
+        if (getCanAdministerMedicine()) {
+            System.out.println(" -> Action: Administering scheduled medications...");
+            // NEW: Actually update the patient's object!
+            patient.setIsMedicationAdministered(true);
+            System.out.println(" -> Result: Patient medication marked as ADMINISTERED.");
+        }
+        System.out.println("==========================");
+    }
     public void setCanCheckBP(boolean canCheckBP){
         this.canCheckBP = canCheckBP;
     }
@@ -38,4 +58,5 @@ public class Nurse extends User {
     public boolean getCanAdministerMedicine(){
         return canAdministerMedicine;
     }
+
 }

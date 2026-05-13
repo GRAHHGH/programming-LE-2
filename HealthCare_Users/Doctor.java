@@ -16,6 +16,26 @@ public class Doctor extends User{
     }
 
     @Override
+    public void treatPatient(Patient patient) {
+        System.out.println("\n=== DOCTOR ACTION PANEL ===");
+        System.out.println("Dr. " + getName() + " is reviewing Patient: " + patient.getName());
+        
+        if (getCanDiagnose()) {
+            System.out.println(" -> Action: Diagnosing patient illness...");
+            // NEW: Actually update the patient's object!
+            patient.setIsDiagnosed(true); 
+            System.out.println(" -> Result: Patient has been marked as DIAGNOSED.");
+        } else {
+            System.out.println(" -> Note: Not authorized to diagnose.");
+        }
+        
+        if (getCanAdmitPatients()) {
+            System.out.println(" -> Action: Approving patient for hospital admission...");
+        }
+        System.out.println("===========================");
+    }
+
+    @Override
     public String toString() {
         return "\n--- Doctor Profile --- \n" + 
             super.toString() + 

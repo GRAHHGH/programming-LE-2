@@ -5,6 +5,8 @@ public class Patient extends User{
     // patients information
     private String patientID;
     private String bloodType;
+    private boolean isDiagnosed;
+    private boolean isMedicationAdministered;
 
     // patients vitals
     private int heartRate;
@@ -16,14 +18,27 @@ public class Patient extends User{
         this.bloodType = bloodType;
         this.heartRate = 0;
         this.bloodPressure = "N/A";
+
+        this.isDiagnosed = false;
+        this.isMedicationAdministered = false;
     }
 
     @Override
     public String toString() {
+        String diagStatus = isDiagnosed ? "YES" : "NO";
+        String medStatus = isMedicationAdministered ? "YES" : "NO";
+
         return "\n--- Patient Record: " + patientID + " ---\n" + 
                super.toString() + " | Blood Type: " + bloodType + "\n" +
-               "Vitals -> HR: " + heartRate + " bpm | BP: " + bloodPressure;
+               "Vitals -> HR: " + heartRate + " bpm | BP: " + bloodPressure + "\n" +
+               "[Checklist] Diagnosed: " + diagStatus + " | Meds Administered: " + medStatus;
     }
+
+    @Override
+    public void treatPatient(Patient patient) {
+        throw new UnsupportedOperationException("Unimplemented method 'treatPatient'");
+    }
+
 
     //getters and setters
     public void setPatientID(String patientID){
@@ -63,5 +78,20 @@ public class Patient extends User{
         return "Patient";
     }
 
+    public void setIsDiagnosed(boolean isDiagnosed) {
+        this.isDiagnosed = isDiagnosed;
+    }
+    
+    public boolean getIsDiagnosed() {
+        return isDiagnosed;
+    }
+
+    public void setIsMedicationAdministered(boolean isMedicationAdministered) {
+        this.isMedicationAdministered = isMedicationAdministered;
+    }
+
+    public boolean getIsMedicationAdministered() {
+        return isMedicationAdministered;
+    }
 
 }
