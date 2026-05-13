@@ -1,10 +1,8 @@
 package HealthCare_Users;
 
-public class Patient {
+public class Patient extends User{
 
     // patients information
-    private String name;
-    private int age;
     private String patientID;
     private String bloodType;
 
@@ -12,47 +10,22 @@ public class Patient {
     private int heartRate;
     private String bloodPressure;
 
-    public Patient(String name, int age, String patientID, String bloodType){
-        this.name = name;
-        this.age = age;
+    public Patient(String patientID, String bloodType, String name, int age, String userID){
+        super(name, age, userID);
         this.patientID = patientID;
         this.bloodType = bloodType;
-
         this.heartRate = 0;
         this.bloodPressure = "N/A";
     }
 
-    public void printPatientInfo() {
-        System.out.println("\n--- Patient Record: " + patientID + " ---");
-        System.out.println("Name: " + name + " | Age: " + age + " | Blood Type: " + bloodType);
-        System.out.println("Vitals -> HR: " + heartRate + " bpm | BP: " + bloodPressure);
+    @Override
+    public String toString() {
+        return "\n--- Patient Record: " + patientID + " ---\n" + 
+               super.toString() + " | Blood Type: " + bloodType + "\n" +
+               "Vitals -> HR: " + heartRate + " bpm | BP: " + bloodPressure;
     }
 
     //getters and setters
-    public void setName(String name){
-        if(name == null){
-            System.out.println("Name invalid");
-        }
-        else
-            this.name = name;
-    }
-
-    public String getName(){
-        return name;
-    }
-
-    public void setAge(int age){
-        if(age > 120 || age < 0){
-            System.out.println("Age Invalid");
-        }
-        else    
-            this.age = age;
-    }
-
-    public int getAge(){
-        return age;
-    }
-
     public void setPatientID(String patientID){
         this.patientID = patientID;
     }
@@ -84,5 +57,11 @@ public class Patient {
     public String getBloodPressure(){
         return bloodPressure;
     }
+
+    @Override
+    public String getRole() {
+        return "Patient";
+    }
+
 
 }

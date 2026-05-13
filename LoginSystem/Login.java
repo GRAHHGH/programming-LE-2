@@ -2,81 +2,105 @@ package LoginSystem;
 
 import java.util.Scanner;
 
+import HealthCare_Users.*;
+import MainPage.StaffDashBoard;
+
+
 public class Login {
     
-    Scanner scanner = new Scanner(System.in);
-    UserDataManager userDataManager = new UserDataManager();
-
-    boolean isRunning = true;
-    String loginInputChoice;
-    boolean isRegistered;
-    boolean isUserExist;
+    private Scanner scanner = new Scanner(System.in);
+    private UserDataManager userDataManager = new UserDataManager();
+    private boolean isRunning = true;
+    private StaffDashBoard staffDashBoard = new StaffDashBoard(userDataManager);
 
     public void mainMenu(){
         while(isRunning){
-            System.out.println("MENU");
+            System.out.println("\n--- MENU ---");
             System.out.println("[1] Register");
             System.out.println("[2] Login");
             System.out.println("[3] Exit");
             System.out.print("Choose an option: ");
-                loginInputChoice = scanner.nextLine();   
-            this.LoginLogic();
+            
+            // Local variable, created fresh every loop
+            String loginInputChoice = scanner.nextLine();   
+            this.LoginLogic(loginInputChoice); 
         }
     }
 
-    public void LoginLogic(){
-
-        switch(this.loginInputChoice){
+    // Pass the choice in as an argument
+    private void LoginLogic(String choice){
+        switch(choice){
             case "1":
-                    this.RegisterMenu();
+                this.RegisterMenu();
                 break;
             case "2":
-                    this.LoginMenu();
-                    isRunning = false;
+                this.LoginMenu();
                 break;
             case "3":
-                System.out.println("Exit");
+                System.out.println("Exiting System. Goodbye!");
                 isRunning = false;
                 break;
             default:    
-                System.out.println("Invalid Choice");     
-
+                System.out.println("Invalid Choice. Please try again.");     
         }
     }
 
-    public void RegisterMenu(){
+    private void RegisterMenu(){
         System.out.print("Enter a new Username: ");
-            String newUsername = scanner.nextLine();
-            isRegistered = userDataManager.userExist(newUsername);
-        if(isRegistered){
-            System.out.println("That User is already taken");
-        }
-        else{
-            System.out.print("Enter a new Password: ");
-            String newPassword = scanner.nextLine();
-            isRegistered = userDataManager.registerUser(newUsername, newPassword);
-            System.out.println("Account Created!");
-        }
+        String newUsername = scanner.nextLine();
         
+        if(userDataManager.userExist(newUsername)){
+            System.out.println("Error: That Username is already taken.");
+            return; 
+        } 
+        
+        System.out.print("Enter a new Password: ");
+        String newPassword = scanner.nextLine();
+
+        // Only Staff can register an account now!
+        System.out.println("\nWhat type of Staff account are you creating?");
+        System.out.println("[1] Doctor");
+        System.out.println("[2] Nurse");
+        System.out.print("Choice: ");
+        String roleChoice = scanner.nextLine();
+
+        System.out.print("Enter your real Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter your Age: ");
+        int age = scanner.nextInt();
+        scanner.nextLine(); // Clear scanner buffer
+
+        User newUserProfile = null;
+
+        if (roleChoice.equals("1")) {
+            newUserProfile = new Doctor(name, age, newUsername, 10, "General", true, true);
+        } else if (roleChoice.equals("2")) {
+            newUserProfile = new Nurse(name, age, newUsername, true, true);
+        } else {
+            System.out.println("Error: Invalid choice.");
+            return;
+        }
+
+        // Save the staff member
+        userDataManager.registerStaff(newUsername, newPassword, newUserProfile);
+        System.out.println("\nSuccess: " + newUserProfile.getRole() + " Account Created!");
     }
 
-    public void LoginMenu(){
+    private void LoginMenu(){
         System.out.print("Enter a Username: ");
-            String loginUser = scanner.nextLine();
+        String loginUser = scanner.nextLine();
         System.out.print("Enter a Password: ");
-            String loginPassword = scanner.nextLine();
+        String loginPassword = scanner.nextLine();
         
-        isUserExist = userDataManager.authenticateUser(loginUser, loginPassword);
-
-        if(isUserExist){
-            System.out.println("Welcome " + loginUser + "!");
+        if(userDataManager.authenticateUser(loginUser, loginPassword)){
+            User loggedInUser = userDataManager.getUserProfile(loginUser);
+            System.out.println("\nLogin Successful! Welcome, " + loggedInUser.getRole() + " " + loggedInUser.getName() + ".");
+            
+            // --- NEW: Call the separate class! ---
+            staffDashBoard.openDashboard(loggedInUser); 
+            
+        } else {
+            System.out.println("Error: Invalid username or password!");
         }
-        else{
-            System.out.println("this user doesnt exist!");
-            isRunning = true;
-            mainMenu();
-        }
-        
     }
-   
 }
