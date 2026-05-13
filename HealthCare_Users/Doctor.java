@@ -22,7 +22,6 @@ public class Doctor extends User{
         
         if (getCanDiagnose()) {
             System.out.println(" -> Action: Diagnosing patient illness...");
-            // NEW: Actually update the patient's object!
             patient.setIsDiagnosed(true); 
             System.out.println(" -> Result: Patient has been marked as DIAGNOSED.");
         } else {

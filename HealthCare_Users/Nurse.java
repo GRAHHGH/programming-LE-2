@@ -30,14 +30,12 @@ public class Nurse extends User {
         
         if (getCanCheckBP()) {
             System.out.println(" -> Action: Taking new Blood Pressure and Heart Rate vitals...");
-            // Just for fun, we can simulate taking vitals by generating random numbers!
             patient.setHeartRate((int)(Math.random() * 40) + 60); 
             patient.setBloodPressure("120/80"); 
         }
         
         if (getCanAdministerMedicine()) {
             System.out.println(" -> Action: Administering scheduled medications...");
-            // NEW: Actually update the patient's object!
             patient.setIsMedicationAdministered(true);
             System.out.println(" -> Result: Patient medication marked as ADMINISTERED.");
         }
