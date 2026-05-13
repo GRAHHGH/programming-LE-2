@@ -1,4 +1,5 @@
 package HealthCare_Users;
+import java.util.Scanner;
 
 public class Doctor extends User{
 
@@ -17,23 +18,53 @@ public class Doctor extends User{
 
     @Override
     public void treatPatient(Patient patient) {
-        System.out.println("\n=== DOCTOR ACTION PANEL ===");
-        System.out.println("Dr. " + getName() + " is reviewing Patient: " + patient.getName());
-        
-        if (getCanDiagnose()) {
-            System.out.println(" -> Action: Diagnosing patient illness...");
-            patient.setIsDiagnosed(true); 
-            System.out.println(" -> Result: Patient has been marked as DIAGNOSED.");
-        } else {
-            System.out.println(" -> Note: Not authorized to diagnose.");
+        // We create a local scanner just for the Doctor's menu
+        Scanner scanner = new Scanner(System.in);
+        boolean viewingPatient = true;
+
+        while (viewingPatient) {
+            System.out.println("\n=== DOCTOR ACTION PANEL ===");
+            System.out.println("Dr. " + getName() + " is reviewing Patient: " + patient.getName());
+            
+            if (getCanDiagnose()) {
+                System.out.println("[1] Add Diagnosis to Record");
+            }
+            if (getCanAdmitPatients()) {
+                System.out.println("[2] Admit Patient to Hospital Room");
+            }
+            System.out.println("[3] Finish & Return to Dashboard");
+            System.out.print("Select an action: ");
+            
+            String choice = scanner.nextLine();
+            
+            switch (choice) {
+                case "1":
+                    if (getCanDiagnose()) {
+                        patient.setIsDiagnosed(true);
+                        System.out.println(" -> Result: Patient has been marked as DIAGNOSED.");
+                    } else {
+                        System.out.println(" -> Error: You lack permissions to diagnose.");
+                    }
+                    break;
+                    
+                case "2":
+                    if (getCanAdmitPatients()) {
+                        patient.setIsAdmitted(true);
+                        System.out.println(" -> Result: Patient has been officially ADMITTED.");
+                    } else {
+                        System.out.println(" -> Error: You lack permissions to admit patients.");
+                    }
+                    break;
+                    
+                case "3":
+                    System.out.println("Closing Doctor Panel...");
+                    viewingPatient = false; 
+                    break;
+                    
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
         }
-        
-        if (getCanAdmitPatients()) {
-            System.out.println(" -> Action: Approving patient for hospital admission...");
-            patient.setIsAdmitted(true);
-            System.out.println(" -> Result: Patient has been officially ADMITTED to a room.");
-        }
-        System.out.println("===========================");
     }
 
     @Override
